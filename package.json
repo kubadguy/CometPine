@@ -1,7 +1,7 @@
 {
   "name": "ana7tea-cometego-cometpine",
   "displayName": "CometPine",
-  "description": "Generate framework-ready code from natural language directly in VS Code.",
+  "description": "Generate framework-ready code from natural language directly in VS Code. CometPine is completely free with all features included (donations optional).",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.104.0"
