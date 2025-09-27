@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 function mockAIResponse(input: string): string {
     if (input.startsWith("view:")) {
-        return `
+        return (`
 @login_required
 def add_to_cart(request, item_id):
     item = get_object_or_404(Item, id=item_id)
@@ -35,7 +35,7 @@ def add_to_cart(request, item_id):
     if cart.items.count() > 999:
         return redirect("bulk_order_view")
     return redirect("cart_detail")
-        `;
+        `);
     }
     return "// Generated code goes here";
 }
