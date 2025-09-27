@@ -14,10 +14,18 @@
   "contributes": {
     "commands": [
       {
-        "command": "ana7tea-cometego-cometpine.helloWorld",
-        "title": "Hello World"
+        "command": "nl2code.generate",
+        "title": "Generate Code from NL"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "nl2code.generate",
+        "key": "tab",
+        "when": "editorTextFocus && editorLangId == python"
       }
     ]
+
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

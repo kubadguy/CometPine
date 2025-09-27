@@ -1,26 +1,43 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+    let disposable = vscode.commands.registerCommand('nl2code.generate', async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) return;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "ana7tea-cometego-cometpine" is now active!');
+        const document = editor.document;
+        const selection = editor.selection;
+        const text = document.getText(selection) || document.lineAt(selection.start.line).text;
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('ana7tea-cometego-cometpine.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from CometPine!');
-	});
+        // Mock AI response
+        const generatedCode = mockAIResponse(text);
 
-	context.subscriptions.push(disposable);
+        editor.edit(editBuilder => {
+            if (selection.isEmpty) {
+                editBuilder.replace(document.lineAt(selection.start.line).range, generatedCode);
+            } else {
+                editBuilder.replace(selection, generatedCode);
+            }
+        });
+    });
+
+    context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
+function mockAIResponse(input: string): string {
+    if (input.startsWith("view:")) {
+        return `
+@login_required
+def add_to_cart(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    cart.items.add(item)
+    if cart.items.count() > 999:
+        return redirect("bulk_order_view")
+    return redirect("cart_detail")
+        `;
+    }
+    return "// Generated code goes here";
+}
+
 export function deactivate() {}
